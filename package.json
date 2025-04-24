@@ -1,0 +1,45 @@
+{
+  "name": "@ficrypt/oauth-service-ts-client-sdk",
+  "version": "1.0.0",
+  "description": "Oauth Service client used by external customers to call public oauth service endpoints.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ficrypt/oauth-service-ts-client-sdk.git"
+  },
+  "keywords": [
+    "ficrypt",
+    "oauth",
+    "client",
+    "sdk"
+  ],
+  "author": "ficrypt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ficrypt/oauth-service-ts-client-sdk/issues"
+  },
+  "homepage": "https://github.com/ficrypt/oauth-service-ts-client-sdk#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/lodash": "^4.17.16",
+    "@types/node": "^22.14.1",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@ficrypt/oauth": "^1.0.17",
+    "lodash": "^4.17.21",
+    "query-string": "^9.1.1"
+  }
+}

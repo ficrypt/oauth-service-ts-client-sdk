@@ -1,0 +1,11 @@
+services:
+  cli:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: [ "npm", "run", "build" ]
+    environment:
+      VITE_API_URL: "http://oauth-api.lvh.me"
+    volumes:
+      - ./:/app/
+      - ./node_modules:/app/node_modules
