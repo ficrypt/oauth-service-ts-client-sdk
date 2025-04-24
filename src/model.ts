@@ -1,6 +1,6 @@
-import {ExpireJwtRequest} from "@ficrypt/oauth";
+import {ExchangeJwtResponse} from "@ficrypt/oauth";
 
-interface Jwt extends ExpireJwtRequest{}
+interface Jwt extends ExchangeJwtResponse{}
 
 interface ClientConfig {
     clientId: string,

@@ -5,11 +5,14 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
+  "type": "module",
   "scripts": {
     "build": "tsup",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,7 @@
   },
   "homepage": "https://github.com/ficrypt/oauth-service-ts-client-sdk#readme",
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.0",
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.14.1",
@@ -35,7 +39,8 @@
     "jest-environment-jsdom": "^29.5.0",
     "ts-jest": "^29.1.0",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "undici": "^7.8.0"
   },
   "dependencies": {
     "@ficrypt/oauth": "^1.0.17",

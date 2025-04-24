@@ -1,4 +1,4 @@
-import { Jwt, ClientConfig } from '../src/model';
+import { Jwt, ClientConfig } from '../src/model.js';
 
 describe('Model', () => {
   describe('Interfaces', () => {

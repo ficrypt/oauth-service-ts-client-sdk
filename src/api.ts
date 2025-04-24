@@ -4,7 +4,7 @@ import {
     JwtApi,
     Middleware,
 } from "@ficrypt/oauth";
-import {ClientConfig} from "./model";
+import {ClientConfig} from "./model.js";
 
 const basePath: string = 'https://oauth-api.ficrypt.com';
 

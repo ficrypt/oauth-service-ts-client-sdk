@@ -4,4 +4,5 @@ build:
 	docker compose build
 
 test:
-	echo TODO!
+	$(MAKE) build
+	docker compose run --rm cli npm test

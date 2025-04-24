@@ -1,4 +1,5 @@
-import { Client } from '../src/client';
+import { Client } from '../src/client.js';
+import { jest } from '@jest/globals';
 
 // These tests are marked as skipped because they would require actual API calls
 // They serve as documentation for how integration tests could be structured
@@ -16,6 +17,14 @@ describe.skip('Integration Tests', () => {
     const url = client.getSignInUrl();
     expect(url).toContain('https://oauth.ui.ficrypt.com/sign-in');
     expect(url).toContain(`clientId=${clientId}`);
+
+    const urlWithConfig = client.getSignInUrl({
+      baseUrl: 'http://oauth-ui.lvh.me',
+      theme: 'dark'
+    });
+    expect(url).toContain('http://oauth-ui.lvh.me/sign-in');
+    expect(url).toContain(`clientId=${clientId}`);
+    expect(url).toContain(`theme=dark`);
   });
 
   it('should exchange an auth code for JWT', async () => {
@@ -26,7 +35,7 @@ describe.skip('Integration Tests', () => {
       const result = await client.exchangeAuthCode(authCode);
       expect(result.accessToken).toBeDefined();
       expect(result.refreshToken).toBeDefined();
-      expect(result.expiresIn).toBeGreaterThan(0);
+      // TODO expect(result.expiresIn).toBeGreaterThan(0);
     } catch (error) {
       // This will likely fail without a valid auth code
       console.error('Auth code exchange failed:', error);

@@ -1,8 +1,8 @@
-import {Api} from "./api";
+import {Api} from "./api.js";
 import {ExchangeJwtResponse} from "@ficrypt/oauth";
-import {ClientConfig, Jwt} from "./model";
+import {ClientConfig, Jwt} from "./model.js";
 import queryString from 'query-string'
-import {merge} from "lodash";
+import lodash from 'lodash';
 
 const OAUTH_UI_URL = 'https://oauth.ui.ficrypt.com'
 
@@ -32,11 +32,11 @@ export class Client {
 
     private getRedirectUrl(path: string, config?: any): string {
         // build the schema+path
-        let url = config.baseUrl ?? OAUTH_UI_URL
+        let url = (config && config.baseUrl) ?? OAUTH_UI_URL
         url += path
 
         // build the query part
-        const configCopy = merge(this.config.oauthPageConfig ?? {}, config ?? {})
+        const configCopy = lodash.merge({}, this.config.oauthPageConfig ?? {}, config ?? {})
         delete configCopy['baseUrl']
 
         return queryString.stringifyUrl({url: url, query: {...configCopy}});
