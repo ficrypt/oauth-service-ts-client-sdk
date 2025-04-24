@@ -12,7 +12,8 @@
   "scripts": {
     "build": "tsup",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch"
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -46,5 +47,8 @@
     "@ficrypt/oauth": "^1.0.17",
     "lodash": "^4.17.21",
     "query-string": "^9.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

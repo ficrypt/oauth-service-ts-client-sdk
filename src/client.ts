@@ -52,7 +52,17 @@ export class Client {
 
     public async signOut(credential: Jwt) {
         try {
-            await this.api.GetJwtApi().expire({expireJwtRequest: credential})
+            // The ExpireJwtRequest expects a token property, so we need to pass the accessToken
+            await this.api.GetJwtApi().expire({
+                expireJwtRequest: { token: credential.accessToken }
+            });
+            
+            // If we have a refreshToken, expire that too
+            if (credential.refreshToken) {
+                await this.api.GetJwtApi().expire({
+                    expireJwtRequest: { token: credential.refreshToken }
+                });
+            }
         } catch (error) {
             return Promise.reject(error)
         }

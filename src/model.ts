@@ -8,7 +8,7 @@ interface ClientConfig {
     oauthPageConfig?: any,
 }
 
-export {
+export type {
     Jwt,
     ClientConfig
 }
