@@ -1,0 +1,59 @@
+name: Publish to github-private
+
+on:
+  push:
+    tags:
+      - 'dev-client/*' # Run when tag matches v*, e.g. v1.0.0, v20.15.10
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 20
+
+      - name: Test - build cli and gen the code
+        run: |
+          make test
+
+      - name: Create .npmrc
+        run: |
+          touch .npmrc
+          echo "@ficrypt:registry=https://npm.pkg.github.com/ficrypt" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" >> .npmrc
+          echo "registry=https://registry.npmjs.org" >> .npmrc
+
+      - run: |
+          npm install
+
+      - run: |
+          npm test
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create .npmrc
+        run: |
+          cd internal/oauth-service/handler/http/openapi-generator/gen/typescript-fetch
+          touch .npmrc
+          echo "@ficrypt:registry=https://npm.pkg.github.com/ficrypt" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" >> .npmrc
+          echo "registry=https://registry.npmjs.org" >> .npmrc
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+      - run: |
+          npm install
+      - run: |
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}

@@ -1,0 +1,50 @@
+name: NPM Package Public Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 20
+
+      - name: Setup
+        run: |
+          npm run install
+          npm run build
+          npm run test
+
+      - run: |
+          cd internal/oauth-service/handler/http/openapi-generator/gen/typescript-fetch
+          npm install
+
+      - run: |
+          cd internal/oauth-service/handler/http/openapi-generator/gen/typescript-fetch
+          npm test
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - run: |
+          cd internal/oauth-service/handler/http/openapi-generator/gen/typescript-fetch
+          npm install
+      - run: |
+          cd internal/oauth-service/handler/http/openapi-generator/gen/typescript-fetch
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN_FINAL}}
