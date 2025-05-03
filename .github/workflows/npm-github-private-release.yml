@@ -55,7 +55,7 @@ jobs:
 
       - name: Build package
         run: |
-          npm build
+          npm run build
 
       - name: Publish package
         run: |
