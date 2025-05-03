@@ -15,10 +15,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Test - build cli and gen the code
-        run: |
-          make test
-
       - name: Create .npmrc
         run: |
           touch .npmrc
@@ -26,11 +22,10 @@ jobs:
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" >> .npmrc
           echo "registry=https://registry.npmjs.org" >> .npmrc
 
-      - run: |
-          npm install
+      - name: Test - build cli and gen the code
+        run: |
+          make test
 
-      - run: |
-          npm test
 
   publish-gpr:
     needs: build
@@ -51,9 +46,16 @@ jobs:
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com/
-      - run: |
+      - name: Install deps
+        run: |
           npm install
-      - run: |
+
+      - name: Build package
+        run: |
+          npm build
+
+      - name: Publish package
+        run: |
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
