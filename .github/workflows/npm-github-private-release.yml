@@ -51,7 +51,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
       - name: Install deps
         run: |
-          npm install
+          npm ci
 
       - name: Build package
         run: |
