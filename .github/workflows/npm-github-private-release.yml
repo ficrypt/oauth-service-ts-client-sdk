@@ -41,7 +41,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Create .npmrc
         run: |
-          cd internal/oauth-service/handler/http/openapi-generator/gen/typescript-fetch
           touch .npmrc
           echo "@ficrypt:registry=https://npm.pkg.github.com/ficrypt" >> .npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" >> .npmrc
