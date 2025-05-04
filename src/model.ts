@@ -5,6 +5,7 @@ interface Jwt extends ExchangeJwtResponse{}
 interface ClientConfig {
     clientId: string,
     baseUrl?: string,
+    callback?: string,
     oauthPageConfig?: any,
 }
 

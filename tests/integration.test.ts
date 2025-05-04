@@ -8,24 +8,42 @@ import { jest } from '@jest/globals';
 describe.skip('Integration Tests', () => {
   let client: Client;
   const clientId = 'your-client-id'; // Replace with actual client ID for testing
-  
+  const callback = 'https://tenant-site.com/oauth/callback'; // Replace with actual client ID for testing
+  const baseurl = 'https://oauth-cutom-domain.com'; // Replace with actual client ID for testing
+
   beforeEach(() => {
-    client = new Client({ clientId });
+    client = new Client({
+      clientId,
+      baseUrl: baseurl,
+      callback: callback
+    });
   });
 
   it('should generate a valid sign-in URL', () => {
     const url = client.getSignInUrl();
-    expect(url).toContain('https://oauth.ui.ficrypt.com/sign-in');
-    expect(url).toContain(`clientId=${clientId}`);
+    expect(url).toContain(baseurl);
+    expect(url).toContain(`client-id=${clientId}`);
+    expect(url).toContain(`callback=${encodeURIComponent(callback)}`);
+    expect(url).toContain(`/sign-in`);
 
-    const urlWithConfig = client.getSignInUrl({
-      baseUrl: 'http://oauth-ui.lvh.me',
-      theme: 'dark'
-    });
-    expect(url).toContain('http://oauth-ui.lvh.me/sign-in');
-    expect(url).toContain(`clientId=${clientId}`);
-    expect(url).toContain(`theme=dark`);
+    const urlWithConfig = client.getSignUpUrl();
+    expect(urlWithConfig).toContain(baseurl);
+    expect(urlWithConfig).toContain(`clientId=${clientId}`);
+    expect(url).toContain(`callback=${encodeURIComponent(callback)}`);
+    expect(url).toContain(`/sign-up`);
   });
+
+  it('client without base url, fallback to default', () => {
+    const clientDefault = new Client({
+      clientId,
+    })
+    const signIn = client.getSignInUrl();
+    expect(signIn).toContain("https://oauth.ui.ficrypt.com");
+
+    const signUp = client.getSignUpUrl();
+    expect(signUp).toContain("https://oauth.ui.ficrypt.com");
+
+  })
 
   it('should exchange an auth code for JWT', async () => {
     // This test requires a valid auth code, which is typically obtained after user authentication

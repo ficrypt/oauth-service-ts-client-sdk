@@ -30,24 +30,29 @@ export class Client {
         }
     }
 
-    private getRedirectUrl(path: string, config?: any): string {
+    private getRedirectUrl(path: string): string {
         // build the schema+path
-        let url = (config && config.baseUrl) ?? OAUTH_UI_URL
+        let url = (this.config && this.config.baseUrl) ?? OAUTH_UI_URL
         url += path
 
         // build the query part
-        const configCopy = lodash.merge({}, this.config.oauthPageConfig ?? {}, config ?? {})
+        const configCopy = lodash.merge({}, this.config.oauthPageConfig ?? {}, this.config ?? {})
         delete configCopy['baseUrl']
+
+        // Parse key clientId to client-id
+        configCopy['client-id'] = this.config.clientId
+        delete configCopy['clientId']
+
 
         return queryString.stringifyUrl({url: url, query: {...configCopy}});
     }
 
-    public getSignInUrl(config? : any): string  {
-        return this.getRedirectUrl('/sign-in', config);
+    public getSignInUrl(): string  {
+        return this.getRedirectUrl('/sign-in');
     }
 
-    public getSignUpUrl(config?: any): string {
-        return this.getRedirectUrl('/sign-up', config);
+    public getSignUpUrl(): string {
+        return this.getRedirectUrl('/sign-up');
     }
 
     public async signOut(credential: Jwt) {
