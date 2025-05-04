@@ -6,6 +6,7 @@ interface ClientConfig {
     clientId: string,
     baseUrl?: string,
     callback?: string,
+    backendApiBasePath?: string, // Mainly used for development
     oauthPageConfig?: any,
 }
 

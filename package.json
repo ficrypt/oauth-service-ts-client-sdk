@@ -1,6 +1,6 @@
 {
   "name": "@ficrypt/oauth-service-ts-client-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Oauth Service client used by external customers to call public oauth service endpoints.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

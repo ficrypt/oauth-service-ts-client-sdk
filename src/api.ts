@@ -10,7 +10,7 @@ const basePath: string = 'https://oauth-api.ficrypt.com';
 
 const makeApiInstance = (config: ClientConfig, ApiClass: typeof BaseAPI, _headers?: object, middleware?: Middleware[]): any => {
     const configuration = new Configuration({
-        basePath: config.baseUrl ?? basePath,
+        basePath: config.backendApiBasePath ?? basePath,
         headers: {
             ...{
                 'Client-Id': config.clientId
