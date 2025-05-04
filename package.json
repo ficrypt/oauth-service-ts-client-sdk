@@ -44,7 +44,7 @@
     "undici": "^7.8.0"
   },
   "dependencies": {
-    "@ficrypt/oauth": "1.0.20",
+    "@ficrypt/oauth": "^1.0.30",
     "lodash": "^4.17.21",
     "query-string": "^9.1.1"
   },

@@ -30,29 +30,27 @@ export class Client {
         }
     }
 
-    private getRedirectUrl(path: string): string {
+    private getRedirectUrl(path: string, extraQuery?: any): string {
         // build the schema+path
         let url = (this.config && this.config.baseUrl) ?? OAUTH_UI_URL
         url += path
 
         // build the query part
-        const configCopy = lodash.merge({}, this.config.oauthPageConfig ?? {}, this.config ?? {})
-        delete configCopy['baseUrl']
+        const configCopy = lodash.merge({}, this.config.oauthPageConfig ?? {}, extraQuery ?? {})
 
         // Parse key clientId to client-id
         configCopy['client-id'] = this.config.clientId
-        delete configCopy['clientId']
-
+        configCopy['callback'] = this.config.callback
 
         return queryString.stringifyUrl({url: url, query: {...configCopy}});
     }
 
-    public getSignInUrl(): string  {
-        return this.getRedirectUrl('/sign-in');
+    public getSignInUrl(extraQuery?: any): string  {
+        return this.getRedirectUrl('/sign-in', extraQuery);
     }
 
-    public getSignUpUrl(): string {
-        return this.getRedirectUrl('/sign-up');
+    public getSignUpUrl(extraQuery?: any): string {
+        return this.getRedirectUrl('/sign-up', extraQuery);
     }
 
     public async signOut(credential: Jwt) {
@@ -73,15 +71,14 @@ export class Client {
         }
     }
 
-    public async isValid(token: string): Promise<boolean> {
+    public async isValid(token: string | null | undefined): Promise<boolean> {
         try {
-            await this.api.GetJwtApi().validateToken({validateJwtRequest: {
-                token: token
+            const resp = await this.api.GetJwtApi().validateToken({validateJwtRequest: {
+                token: token ?? ''
             }})
-            return true;
+            return resp.isValid ?? false;
         } catch (error) {
-            // TODO here check if error is 401 return false else return error.
-            return false;
+            return Promise.reject(error)
         }
     }
 
